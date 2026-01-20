@@ -41,6 +41,37 @@ body {
 }
 
 /* Ajustes para a lista dinâmica de promotores vinda do JS */
+/* CAIXA COM SCROLL (NOVO RECURSO) */
+#listaPromotores {
+  max-height: 400px;
+  /* Altura máxima da caixa */
+  overflow-y: auto;
+  /* Barra de rolagem vertical automática */
+  padding-right: 5px;
+  /* Espaço para não colar na barra */
+  border: 1px solid var(--bs-border-color);
+  /* Borda sutil */
+  border-radius: var(--bs-border-radius-lg);
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Estilizando a barra de rolagem (Scrollbar) para ficar bonita no Dark Mode */
+#listaPromotores::-webkit-scrollbar {
+  width: 8px;
+}
+
+#listaPromotores::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#listaPromotores::-webkit-scrollbar-thumb {
+  background-color: var(--bs-secondary);
+  border-radius: 20px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
 /* Como o JS cria elementos com classes antigas (.promotor-card), vamos mapeá-las para visual Bootstrap */
 .promotor-card {
   display: flex !important;
