@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Controle de Promotores</title>
+
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <!-- Google Fonts: Poppins & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Remix Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-body-tertiary">
+
+  <!-- Background Animado (Opcional) -->
+  <div class="animated-background">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+
+  <div class="container py-5">
+    <h1 class="text-center mb-5 display-5 fw-bold text-primary">
+      <i class="ri-clipboard-line"></i> Controle de Promotores
+    </h1>
+
+    <!-- Cadastro de Promotores -->
+    <div class="card shadow-sm mb-4 border-0">
+      <div class="card-header bg-transparent border-0 pt-4 px-4">
+        <h2 class="h4 mb-0"><i class="ri-user-add-line text-primary me-2"></i> Cadastro de Promotores</h2>
+      </div>
+      <div class="card-body p-4">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label for="nome" class="form-label">Nome Completo</label>
+            <input type="text" class="form-control" id="nome" placeholder="Ex: João Silva">
+          </div>
+          <div class="col-md-4">
+            <label for="marca" class="form-label">Marca</label>
+            <input type="text" class="form-control" id="marca" placeholder="Ex: Samsung">
+          </div>
+          <div class="col-md-4">
+            <label for="cpf" class="form-label">CPF</label>
+            <input type="text" class="form-control" id="cpf" placeholder="000.000.000-00">
+          </div>
+        </div>
+        <div class="d-flex gap-2 mt-4">
+          <button class="btn btn-primary px-4" onclick="cadastrarPromotor()" id="btnCadastrar">
+            <i class="ri-check-line"></i> Cadastrar
+          </button>
+          <button class="btn btn-outline-secondary px-4" onclick="cancelarEdicao()" id="btnCancelar"
+            style="display: none;">
+            <i class="ri-close-line"></i> Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gerenciar Promotores -->
+    <div class="card shadow-sm mb-4 border-0">
+      <div class="card-header bg-transparent border-0 pt-4 px-4">
+        <h2 class="h4 mb-0"><i class="ri-team-line text-info me-2"></i> Gerenciar Promotores</h2>
+      </div>
+      <div class="card-body p-4">
+        <div class="row mb-3">
+          <div class="col-md-8">
+            <label for="filtroGerenciar" class="form-label">Buscar Promotor</label>
+            <div class="input-group">
+              <span class="input-group-text bg-body-tertiary"><i class="ri-search-line"></i></span>
+              <input type="text" class="form-control" id="filtroGerenciar"
+                placeholder="Buscar por nome, marca ou CPF..." onkeyup="filtrarPromotores()">
+            </div>
+          </div>
+          <div class="col-md-4 d-flex align-items-end">
+            <button class="btn btn-warning w-100 text-dark fw-semibold" onclick="gerarPDFPromotores()">
+              <i class="ri-file-pdf-line"></i> Gerar PDF
+            </button>
+          </div>
+        </div>
+
+        <div id="listaPromotores" class="vstack gap-3">
+          <!-- Lista será preenchida dinamicamente -->
+          <div class="alert alert-secondary text-center" role="alert">
+            Carregando lista...
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Registro de Entrada / Saída -->
+    <div class="card shadow-sm mb-4 border-0">
+      <div class="card-header bg-transparent border-0 pt-4 px-4">
+        <h2 class="h4 mb-0"><i class="ri-time-line text-success me-2"></i> Registro de Ponto</h2>
+      </div>
+      <div class="card-body p-4">
+        <div class="mb-3">
+          <label for="promotorSelect" class="form-label">Selecione o Promotor</label>
+          <select class="form-select form-select-lg" id="promotorSelect">
+            <option disabled selected>Selecione um promotor...</option>
+          </select>
+        </div>
+        <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+          <button class="btn btn-success btn-lg px-5" onclick="registrarEntrada()">
+            <i class="ri-play-circle-line"></i> Entrada
+          </button>
+          <button class="btn btn-danger btn-lg px-5" onclick="registrarSaida()">
+            <i class="ri-stop-circle-line"></i> Saída
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Relatórios -->
+    <div class="card shadow-sm mb-4 border-0">
+      <div class="card-header bg-transparent border-0 pt-4 px-4">
+        <h2 class="h4 mb-0"><i class="ri-file-chart-line text-warning me-2"></i> Relatórios</h2>
+      </div>
+      <div class="card-body p-4">
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <label for="filtro" class="form-label">Filtrar</label>
+            <input type="text" class="form-control" id="filtro" placeholder="Nome ou marca...">
+          </div>
+          <div class="col-md-4">
+            <label for="dataInicio" class="form-label">Data Início</label>
+            <input type="date" class="form-control" id="dataInicio">
+          </div>
+          <div class="col-md-4">
+            <label for="dataFim" class="form-label">Data Fim</label>
+            <input type="date" class="form-control" id="dataFim">
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 mb-4">
+          <button class="btn btn-outline-primary btn-sm rounded-pill px-3"
+            onclick="aplicarFiltroRapido('hoje')">Hoje</button>
+          <button class="btn btn-outline-primary btn-sm rounded-pill px-3" onclick="aplicarFiltroRapido('semana')">Esta
+            Semana</button>
+          <button class="btn btn-outline-primary btn-sm rounded-pill px-3" onclick="aplicarFiltroRapido('mes')">Este
+            Mês</button>
+          <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="aplicarFiltroRapido('limpar')"><i
+              class="ri-filter-off-line"></i> Limpar</button>
+        </div>
+
+        <div class="d-grid gap-2">
+          <button class="btn btn-warning text-dark fw-bold" onclick="gerarPDF()">
+            <i class="ri-file-download-line"></i> Baixar Relatório PDF
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal de Confirmação (Bootstrap Modal) -->
+  <div class="modal fade" id="modalConfirmacao" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h5 class="modal-title text-danger"><i class="ri-alert-line me-2"></i>Confirmar Exclusão</h5>
+          <button type="button" class="btn-close" onclick="fecharModal()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="mensagemModal" class="mb-0">Tem certeza que deseja excluir este item?</p>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
+          <button type="button" class="btn btn-danger" onclick="confirmarExclusao()">Sim, Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center py-4 mt-5 text-body-secondary border-top">
+    <div class="container">
+      <p class="mb-1">Desenvolvido por <strong>Cristiane Ferreira</strong></p>
+      <small>Controle de Promotores &copy; 2026</small>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/pdf.js"></script>
+
+  <!-- Script Auxiliar para Modal Bootstrap (Compatibilidade) -->
+  <script>
+    // Sobrescrevendo funções de modal do app.js para usar Bootstrap API
+    // Precisamos esperar o DOM carregar
+    document.addEventListener('DOMContentLoaded', function () {
+      const modalElement = document.getElementById('modalConfirmacao');
+      const bootstrapModal = new bootstrap.Modal(modalElement);
+
+      // Sobrescrever a função global mostrarModal usada pelo app.js
+      window.mostrarModal = function (mensagem) {
+        document.getElementById('mensagemModal').innerText = mensagem;
+        bootstrapModal.show();
+      };
+
+      // Sobrescrever a função global fecharModal usada pelo app.js
+      window.fecharModal = function () {
+        bootstrapModal.hide();
+      };
+    });
+  </script>
+</body>
+
+</html>

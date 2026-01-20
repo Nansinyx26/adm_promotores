@@ -1,0 +1,75 @@
+/* Customizações sobre Bootstrap 5 Dark Mode */
+
+:root {
+  --bs-body-font-family: 'Inter', sans-serif;
+  --bs-primary: #6366f1;
+  /* Cor primária personalizada (Vileta) */
+  --bs-primary-rgb: 99, 102, 241;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Background Animado (Opcional - mantido para estilo extra) */
+body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Fix para garantir que o modal do Bootstrap funcione bem e sobreponha o estilo antigo se houver resquício em cache */
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Backdrop padrão bootstrap */
+}
+
+/* Customização de Cards */
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  backdrop-filter: blur(10px);
+  background-color: rgba(var(--bs-body-bg-rgb), 0.8) !important;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+}
+
+/* Ajustes para a lista dinâmica de promotores vinda do JS */
+/* Como o JS cria elementos com classes antigas (.promotor-card), vamos mapeá-las para visual Bootstrap */
+.promotor-card {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  background-color: var(--bs-dark-bg-subtle) !important;
+  border: 1px solid var(--bs-border-color) !important;
+  border-radius: var(--bs-border-radius-lg) !important;
+  padding: 1rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.promotor-info h3 {
+  font-size: 1.1rem !important;
+  margin-bottom: 0.25rem !important;
+  color: var(--bs-emphasis-color) !important;
+}
+
+.promotor-info p {
+  margin-bottom: 0.1rem !important;
+  font-size: 0.9rem !important;
+  color: var(--bs-secondary-color) !important;
+}
+
+.badge-info {
+  background-color: var(--bs-primary) !important;
+  color: white !important;
+  padding: 0.25em 0.6em !important;
+  border-radius: var(--bs-border-radius-pill) !important;
+  font-size: 0.75em !important;
+  font-weight: 700 !important;
+}
